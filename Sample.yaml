@@ -1,0 +1,25 @@
+---
+- name: Hello World
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Print Hello World
+      ansible.builtin.debug:
+        msg: "Hello World from Ansible AAP!"
+    - name: Create a variable
+      ansible.builtin.set_fact:
+        environment: "production"
+# {{ item }} is the default where u loop through each iteration server01, server02, server03
+    - name: Print server names
+      ansible.builtin.debug:
+        msg: "Server: {{ item }}"
+      loop:
+        - server01
+        - server02
+        - server03
+    - name: Production only task
+      ansible.builtin.debug:
+        msg: "This is a {{ environment }} environment"
+      when: environment == "production"
