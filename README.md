@@ -1,0 +1,1 @@
+Run the 'Sample.yml' by using: ansible-playbook -i inventory.ini Sample.yml

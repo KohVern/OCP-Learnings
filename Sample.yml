@@ -1,25 +1,30 @@
 ---
-- name: Hello World
+- name: Sample tests
   hosts: localhost
-  connection: local
   gather_facts: false
 
   tasks:
     - name: Print Hello World
       ansible.builtin.debug:
         msg: "Hello World from Ansible AAP!"
+
     - name: Create a variable
       ansible.builtin.set_fact:
-        environment: "production"
+        env_name: "production"
+
+    - name: Check environment variable
+      ansible.builtin.debug:
+        var: env_name
+
 # {{ item }} is the default where u loop through each iteration server01, server02, server03
     - name: Print server names
       ansible.builtin.debug:
         msg: "Server: {{ item }}"
-      loop:
-        - server01
-        - server02
-        - server03
-    - name: Production only task
-      ansible.builtin.debug:
-        msg: "This is a {{ environment }} environment"
-      when: environment == "production"
+      loop: "{{ groups['server_names'] }}"
+
+#This playbook contains the var env_name, just provide server_name (Using a function)
+    - name: Run our greet.yml function for each server
+      ansible.builtin.include_tasks: greet.yml
+      loop: "{{ groups['server_names'] }}"
+      loop_control:
+        loop_var: server_name

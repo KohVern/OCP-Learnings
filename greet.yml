@@ -1,0 +1,9 @@
+---
+# Requires server_name & env_name
+- name: Greet server
+  ansible.builtin.debug:
+    msg: "Hello {{ server_name }}!"
+
+- name: Show environment
+  ansible.builtin.debug:
+    msg: "{{ server_name }} is running in {{ env_name }} environment"
